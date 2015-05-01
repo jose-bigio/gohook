@@ -22,13 +22,13 @@ func main() {
 		eAndT := <-server.EventAndTypes
 		switch eAndT.Type {
 		case gohook.PingEventType:
-			packet, ok := eAndT.Event.(gohook.PingEvent)
+			packet, ok := eAndT.Event.(*gohook.PingEvent)
 			if !ok {
 				panic("Could not assert PingEvent as such.")
 			}
 			fmt.Println(packet.Organization.Login)
 		case gohook.PushEventType:
-			packet, ok := eAndT.Event.(gohook.PushEvent)
+			packet, ok := eAndT.Event.(*gohook.PushEvent)
 			if !ok {
 				panic("Could not assert PushEvent as such.")
 			}
