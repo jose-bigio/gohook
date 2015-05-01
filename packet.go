@@ -1,6 +1,6 @@
 package gohook
 
-// import "encoding/json"
+import "encoding/json"
 
 // SenderType represents the structure of the sender field in push/ping events.
 type SenderType struct {
@@ -65,76 +65,76 @@ type CommitType struct {
 
 // RepoType represents the structure of a repository as used in push events.
 type RepoType struct {
-	ID               int        `json:"id"`
-	Name             string     `json:"name"`
-	FullName         string     `json:"full_name"`
-	Owner            PusherType `json:"owner"`
-	Private          bool       `json:"private"`
-	HTMLURL          string     `json:"html_url"`
-	Description      string     `json:"description"`
-	Fork             bool       `json:"fork"`
-	URL              string     `json:"url"`
-	ForksURL         string     `json:"forks_url"`
-	KeysURL          string     `json:"keys_url"`
-	CollaboratorsURL string     `json:"collaborators_url"`
-	TeamsURL         string     `json:"teams_url"`
-	HooksURL         string     `json:"hooks_url"`
-	IssueEventsURL   string     `json:"issue_events_url"`
-	EventsURL        string     `json:"events_url"`
-	AssigneesURL     string     `json:"assignees_url"`
-	BranchesURL      string     `json:"branches_url"`
-	TagsURL          string     `json:"tags_url"`
-	BlobsURL         string     `json:"blobs_url"`
-	GitTagsURL       string     `json:"git_tags_url"`
-	GitRefsURL       string     `json:"git_refs_url"`
-	TreesURL         string     `json:"trees_url"`
-	StatusesURL      string     `json:"statuses_url"`
-	LanguagesURL     string     `json:"languages_url"`
-	StargazersURL    string     `json:"stargazers_url"`
-	ContributorsURL  string     `json:"contributors_url"`
-	SubscribersURL   string     `json:"subscribers_url"`
-	SubscriptionURL  string     `json:"subscription_url"`
-	CommitsURL       string     `json:"commits_url"`
-	GitCommitsURL    string     `json:"git_commits_url"`
-	CommentsURL      string     `json:"comments_url"`
-	IssueCommentURL  string     `json:"issue_comment_url"`
-	ContentsURL      string     `json:"contents_url"`
-	CompareURL       string     `json:"compare_url"`
-	MergesURL        string     `json:"mergers_url"`
-	ArchiveURL       string     `json:"archive_url"`
-	DownloadsURL     string     `json:"downloads_url"`
-	IssuesURL        string     `json:"issues_url"`
-	PullsURL         string     `json:"pulls_url"`
-	MilestonesURL    string     `json:"milestones_url"`
-	NotificationsURL string     `json:"notifications_url"`
-	LabelsURL        string     `json:"labels_url"`
-	ReleasesURL      string     `json:"releases_url"`
-	CreatedAt        int        `json:"created_at"`
-	UpdatedAt        string     `json:"updated_at"`
-	PushedAt         int        `json:"pushed_at"`
-	GitURL           string     `json:"git_url"`
-	SSHURL           string     `json:"ssh_url"`
-	CloneURL         string     `json:"clone_url"`
-	SvnURL           string     `json:"svn_url"`
-	Homepage         string     `json:"homepage"`
-	Size             int        `json:"size"`
-	StargazersCount  int        `json:"stargazers_count"`
-	WatchersCount    int        `json:"watchers_count"`
-	Language         string     `json:"language"`
-	HasIssues        bool       `json:"has_issues"`
-	HasDownloads     bool       `json:"has_downloads"`
-	HasWiki          bool       `json:"has_wiki"`
-	HasPages         bool       `json:"has_pages"`
-	ForksCount       int        `json:"forks_count"`
-	MirrorURL        string     `json:"mirror_url"`
-	OpenIssuesCount  int        `json:"open_issues_count"`
-	Forks            int        `json:"forks"`
-	OpenIssues       int        `json:"open_issues"`
-	Watchers         int        `json:"watchers"`
-	DefaultBranch    string     `json:"default_branch"`
-	Stargazers       int        `json:"stargazers"`
-	MasterBranch     string     `json:"master_branch"`
-	Organization     string     `json:"organization"`
+	ID               int             `json:"id"`
+	Name             string          `json:"name"`
+	FullName         string          `json:"full_name"`
+	Owner            SenderType      `json:"owner"`
+	Private          bool            `json:"private"`
+	HTMLURL          string          `json:"html_url"`
+	Description      string          `json:"description"`
+	Fork             bool            `json:"fork"`
+	URL              string          `json:"url"`
+	ForksURL         string          `json:"forks_url"`
+	KeysURL          string          `json:"keys_url"`
+	CollaboratorsURL string          `json:"collaborators_url"`
+	TeamsURL         string          `json:"teams_url"`
+	HooksURL         string          `json:"hooks_url"`
+	IssueEventsURL   string          `json:"issue_events_url"`
+	EventsURL        string          `json:"events_url"`
+	AssigneesURL     string          `json:"assignees_url"`
+	BranchesURL      string          `json:"branches_url"`
+	TagsURL          string          `json:"tags_url"`
+	BlobsURL         string          `json:"blobs_url"`
+	GitTagsURL       string          `json:"git_tags_url"`
+	GitRefsURL       string          `json:"git_refs_url"`
+	TreesURL         string          `json:"trees_url"`
+	StatusesURL      string          `json:"statuses_url"`
+	LanguagesURL     string          `json:"languages_url"`
+	StargazersURL    string          `json:"stargazers_url"`
+	ContributorsURL  string          `json:"contributors_url"`
+	SubscribersURL   string          `json:"subscribers_url"`
+	SubscriptionURL  string          `json:"subscription_url"`
+	CommitsURL       string          `json:"commits_url"`
+	GitCommitsURL    string          `json:"git_commits_url"`
+	CommentsURL      string          `json:"comments_url"`
+	IssueCommentURL  string          `json:"issue_comment_url"`
+	ContentsURL      string          `json:"contents_url"`
+	CompareURL       string          `json:"compare_url"`
+	MergesURL        string          `json:"mergers_url"`
+	ArchiveURL       string          `json:"archive_url"`
+	DownloadsURL     string          `json:"downloads_url"`
+	IssuesURL        string          `json:"issues_url"`
+	PullsURL         string          `json:"pulls_url"`
+	MilestonesURL    string          `json:"milestones_url"`
+	NotificationsURL string          `json:"notifications_url"`
+	LabelsURL        string          `json:"labels_url"`
+	ReleasesURL      string          `json:"releases_url"`
+	CreatedAt        json.RawMessage `json:"created_at"`
+	UpdatedAt        json.RawMessage `json:"updated_at"`
+	PushedAt         json.RawMessage `json:"pushed_at"`
+	GitURL           string          `json:"git_url"`
+	SSHURL           string          `json:"ssh_url"`
+	CloneURL         string          `json:"clone_url"`
+	SvnURL           string          `json:"svn_url"`
+	Homepage         string          `json:"homepage"`
+	Size             int             `json:"size"`
+	StargazersCount  int             `json:"stargazers_count"`
+	WatchersCount    int             `json:"watchers_count"`
+	Language         string          `json:"language"`
+	HasIssues        bool            `json:"has_issues"`
+	HasDownloads     bool            `json:"has_downloads"`
+	HasWiki          bool            `json:"has_wiki"`
+	HasPages         bool            `json:"has_pages"`
+	ForksCount       int             `json:"forks_count"`
+	MirrorURL        string          `json:"mirror_url"`
+	OpenIssuesCount  int             `json:"open_issues_count"`
+	Forks            int             `json:"forks"`
+	OpenIssues       int             `json:"open_issues"`
+	Watchers         int             `json:"watchers"`
+	DefaultBranch    string          `json:"default_branch"`
+	Stargazers       int             `json:"stargazers"`
+	MasterBranch     string          `json:"master_branch"`
+	Organization     string          `json:"organization"`
 }
 
 // PushEvent represents the basic, top-level structure of a push event.
@@ -244,7 +244,7 @@ type ShortPullRequestType struct {
 }
 
 type IssueType struct {
-	ID          string               `json:"id"`
+	ID          int                  `json:"id"`
 	URL         string               `json:"url"`
 	HTMLURL     string               `json:"html_url"`
 	Number      int                  `json:"number"`
@@ -306,7 +306,7 @@ type RepositoryEvent struct {
 
 type DeploymentType struct {
 	URL           string            `json:"url"`
-	ID            string            `json:"id"`
+	ID            int               `json:"id"`
 	SHA           string            `json:"sha"`
 	Ref           string            `json:"ref"`
 	Task          string            `json:"task"`
@@ -322,7 +322,7 @@ type DeploymentType struct {
 
 type DeploymentEvent struct {
 	Deployment  DeploymentType    `json:"deployment"`
-	ID          string            `json:"id"`
+	ID          int               `json:"id"`
 	SHA         string            `json:"sha"`
 	Ref         string            `json:"ref"`
 	Task        string            `json:"task"`
@@ -336,7 +336,7 @@ type DeploymentEvent struct {
 
 type DeploymentStatusType struct {
 	URL           string     `json:"url"`
-	ID            string     `json:"id"`
+	ID            int        `json:"id"`
 	State         string     `json:"state"`
 	Creator       SenderType `json:"creator"`
 	Description   string     `json:"description"`
@@ -350,7 +350,7 @@ type DeploymentStatusType struct {
 type DeploymentStatusEvent struct {
 	Deployment       DeploymentType       `json:"deployment"`
 	DeploymentStatus DeploymentStatusType `json:"deployment_status"`
-	ID               string               `json:"id"`
+	ID               int                  `json:"id"`
 	State            string               `json:"state"`
 	TargetURL        string               `json:"target_url"`
 	Description      string               `json:"description"`
@@ -388,7 +388,7 @@ type MemberEvent struct {
 
 type TeamType struct {
 	Name            string `json:"name"`
-	ID              string `json:"id"`
+	ID              int    `json:"id"`
 	Slug            string `json:"slug"`
 	Permission      string `json:"permission"`
 	URL             string `json:"url"`
@@ -405,6 +405,10 @@ type MembershipEvent struct {
 	Organization OrgType    `json:"organization"`
 }
 
+type ErrorType struct {
+	Message string `json:"message"`
+}
+
 type BuildType struct {
 	URL       string     `json:"url"`
 	Status    string     `json:"status"`
@@ -417,10 +421,10 @@ type BuildType struct {
 }
 
 type PageBuildEvent struct {
-	ID         string        `json:"id"`
-	Build      PageBuildType `json:"build"`
-	Repository RepoType      `json:"repository"`
-	Sender     SenderType    `json:"sender"`
+	ID         int        `json:"id"`
+	Build      BuildType  `json:"build"`
+	Repository RepoType   `json:"repository"`
+	Sender     SenderType `json:"sender"`
 }
 
 type PublicEvent struct {
@@ -441,7 +445,7 @@ type Link struct {
 }
 
 type PullRequestType struct {
-	ID                string          `json:"id"`
+	ID                int             `json:"id"`
 	URL               string          `json:"url"`
 	HTMLURL           string          `json:"html_url"`
 	DiffURL           string          `json:"diff_url"`
@@ -484,12 +488,112 @@ type PullRequestEvent struct {
 	Sender      SenderType      `json:"sender"`
 }
 
+type PullRequestReviewCommentType struct {
+	URL              string          `json:"url"`
+	ID               int             `json:"id"`
+	DiffHunk         string          `json:"diff_hunk"`
+	Path             string          `json:"path"`
+	Position         int             `json:"position"`
+	OriginalPosition int             `json:"original_position"`
+	CommitID         string          `json:"commit_id"`
+	OriginalCommitID string          `json:"original_commit_id"`
+	User             SenderType      `json:"user"`
+	Body             string          `json:"body"`
+	CreatedAt        string          `json:"created_at"`
+	UpdatedAt        string          `json:"updated_at"`
+	HTMLURL          string          `json:"html_url"`
+	PullRequestURL   string          `json:"pull_request_url"`
+	Links            map[string]Link `json:"_links"`
+}
+
 type PullRequestReviewCommentEvent struct {
-	Action      string                   `json:"action"`
-	Comment     PullRequestReviewComment `json:"comment"`
-	PullRequest string                   `json:"pull_request"`
-	Repository  RepoType                 `json:"repository"`
-	Sender      SenderType               `json:"sender"`
+	Action      string                       `json:"action"`
+	Comment     PullRequestReviewCommentType `json:"comment"`
+	PullRequest PullRequestType              `json:"pull_request"`
+	Repository  RepoType                     `json:"repository"`
+	Sender      SenderType                   `json:"sender"`
+}
+
+type AssetType struct {
+	URL                string     `json:"url"`
+	BrowserDownloadURL string     `json:"browser_download_url"`
+	ID                 int        `json:"id"`
+	Name               string     `json:"name"`
+	Label              string     `json:"label"`
+	State              string     `json:"state"`
+	ContentType        string     `json:"content_type"`
+	Size               int        `json:"size"`
+	DownloadCount      int        `json:"download_count"`
+	CreatedAt          string     `json:"created_at"`
+	UpdatedAt          string     `json:"updated_at"`
+	Uploader           SenderType `json:"uploader"`
+}
+
+type ReleaseType struct {
+	URL             string      `json:"url"`
+	HTMLURL         string      `json:"html_url"`
+	AssetsURL       string      `json:"assets_url"`
+	UploadURL       string      `json:"upload_url"`
+	TarballURL      string      `json:"tarball_url"`
+	ZipballURL      string      `json:"zipball_url"`
+	ID              int         `json:"id"`
+	TagName         string      `json:"tag_name"`
+	TargetCommitish string      `json:"target_commitish"`
+	Name            string      `json:"name"`
+	Body            string      `json:"body"`
+	Draft           bool        `json:"draft"`
+	Prerelease      bool        `json:"prerelease"`
+	CreatedAt       string      `json:"created_at"`
+	PublishedAt     string      `json:"published_at"`
+	Author          SenderType  `json:"author"`
+	Assets          []AssetType `json:"assets"`
+}
+
+type ReleaseEvent struct {
+	Action     string      `json:"action"`
+	Release    ReleaseType `json:"release"`
+	Repository RepoType    `json:"repository"`
+	Sender     SenderType  `json:"sender"`
+}
+
+type ShortCommitType struct {
+	SHA string `json:"sha"`
+	URL string `json:"url"`
+}
+
+type BranchType struct {
+	Name   string          `json:"master"`
+	Commit ShortCommitType `json:"commit"`
+}
+
+type StatusEvent struct {
+	ID          int          `json:"id"`
+	SHA         string       `json:"sha"`
+	Name        string       `json:"name"`
+	TargetURL   string       `json:"target_url"`
+	Context     string       `json:"context"`
+	Description string       `json:"description"`
+	State       string       `json:"state"`
+	Commit      CommitType   `json:"commit"`
+	Branches    []BranchType `json:"branches"`
+	CreatedAt   string       `json:"created_at"`
+	UpdatedAt   string       `json:"updated_at"`
+	Repository  RepoType     `json:"repository"`
+	Sender      SenderType   `json:"sender"`
+}
+
+type TeamAddEvent struct {
+	Team         TeamType   `json:"team"`
+	Repository   RepoType   `json:"repository"`
+	Organization OrgType    `json:"organization"`
+	Sender       SenderType `json:"sender"`
+}
+
+type WatchEvent struct {
+	Action       string     `json:"action"`
+	Repository   RepoType   `json:"repository"`
+	Sender       SenderType `json:"sender"`
+	Organization OrgType    `json:"organization"`
 }
 
 // EventType is an alias for string that provides type safety for the event types.
@@ -515,6 +619,10 @@ const (
 	PublicEventType                   = EventType("public")
 	PullRequestEventType              = EventType("pull_request")
 	PullRequestReviewCommentEventType = EventType("pull_request_review_comment")
+	ReleaseEventType                  = EventType("release")
+	StatusEventType                   = EventType("status")
+	TeamAddEventType                  = EventType("team_add")
+	WatchEventType                    = EventType("watch")
 )
 
 // EventAndType holds an event and its type, to be used later in a type assertion on the event.

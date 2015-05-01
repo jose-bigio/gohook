@@ -78,7 +78,7 @@ func (s *Server) processPacket(eventType EventType, respBody []byte) {
 	case MemberEventType:
 		payload = &MemberEvent{}
 	case MembershipEventType:
-		payload = &MemebershipEvent{}
+		payload = &MembershipEvent{}
 	case PageBuildEventType:
 		payload = &PageBuildEvent{}
 	case PublicEventType:
@@ -87,6 +87,14 @@ func (s *Server) processPacket(eventType EventType, respBody []byte) {
 		payload = &PullRequestEvent{}
 	case PullRequestReviewCommentEventType:
 		payload = &PullRequestReviewCommentEvent{}
+	case ReleaseEventType:
+		payload = &ReleaseEvent{}
+	case StatusEventType:
+		payload = &StatusEvent{}
+	case TeamAddEventType:
+		payload = &TeamAddEvent{}
+	case WatchEventType:
+		payload = &WatchEvent{}
 	default:
 		log.Printf("Attempt to process unknown packet type: %s", eventType)
 		return
