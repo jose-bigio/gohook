@@ -1,4 +1,4 @@
-// gohook provides a simple http server and types to work with github webhooks.
+// Package gohook provides a simple http server receive github webhooks.
 //
 // Simply start a Server and receive from its EventAndTypes channel, where
 // correctly unmarshalled packets will be available along with its type. The

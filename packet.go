@@ -11,7 +11,7 @@ type SenderType struct {
 	AvatarURL         string `json:"avatar_url"`
 	GravatarID        string `json:"gravatar_id"`
 	URL               string `json:"url"`
-	HtmlURL           string `json:"html_url"`
+	HTMLURL           string `json:"html_url"`
 	FollowersURL      string `json:"followers_url"`
 	FollowingURL      string `json:"following_url"`
 	GistsURL          string `json:"gists_url"`
@@ -72,7 +72,7 @@ type RepoType struct {
 	FullName         string     `json:"full_name"`
 	Owner            PusherType `json:"owner"`
 	Private          bool       `json:"private"`
-	HtmlURL          string     `json:"html_url"`
+	HTMLURL          string     `json:"html_url"`
 	Description      string     `json:"description"`
 	Fork             bool       `json:"fork"`
 	URL              string     `json:"url"`
@@ -115,7 +115,7 @@ type RepoType struct {
 	UpdatedAt        string     `json:"updated_at"`
 	PushedAt         int        `json:"pushed_at"`
 	GitURL           string     `json:"git_url"`
-	SshURL           string     `json:"ssh_url"`
+	SSHURL           string     `json:"ssh_url"`
 	CloneURL         string     `json:"clone_url"`
 	SvnURL           string     `json:"svn_url"`
 	Homepage         string     `json:"homepage"`

@@ -32,6 +32,39 @@ func NewServer(port int, secret string, path string) *Server {
 	}
 }
 
+func (s *Server) verifyAuth(body []byte, req *http.Request) bool {
+	signature := req.Header.Get("X-Hub-Signature")
+	if signature == "" {
+		return false
+	}
+	mac := hmac.New(sha1.New, []byte(s.Secret))
+	mac.Write(body)
+	expectedMAC := mac.Sum(nil)
+	expectedSig := "sha1=" + hex.EncodeToString(expectedMAC)
+	if !hmac.Equal([]byte(expectedSig), []byte(signature)) {
+		return false
+	}
+	return true
+}
+
+func (s *Server) processPacket(eventType EventType, respBody []byte) {
+	var payload interface{}
+	switch eventType {
+	case PushEventType:
+		payload = &PushEvent{}
+	case PingEventType:
+		payload = &PingEvent{}
+	}
+	if err := json.Unmarshal(respBody, &payload); err != nil {
+		panic(err)
+	}
+	et := &EventAndType{
+		Event: payload,
+		Type:  eventType,
+	}
+	s.EventAndTypes <- et
+}
+
 // ServeHTTP implements http.Handler interface on Server. You should never need
 // to call this yourself.
 func (s *Server) ServeHTTP(w http.ResponseWriter, req *http.Request) {
@@ -54,44 +87,17 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, req *http.Request) {
 		http.Error(w, "500 Internal Server Error - Event type not yet implemented.", http.StatusInternalServerError)
 	}
 
-	body, err := ioutil.ReadAll(req.Body)
+	respBody, err := ioutil.ReadAll(req.Body)
 	if err != nil {
 		http.Error(w, "500 Internal Error - Could not read from request: "+err.Error(), http.StatusInternalServerError)
 		return
 	}
 
-	if s.Secret != "" {
-		signature := req.Header.Get("X-Hub-Signature")
-		if signature == "" {
-			http.Error(w, "403 Forbidden- missing secret.", http.StatusForbidden)
-			return
-		}
-		mac := hmac.New(sha1.New, []byte(s.Secret))
-		mac.Write(body)
-		expectedMAC := mac.Sum(nil)
-		expectedSig := "sha1=" + hex.EncodeToString(expectedMAC)
-		if !hmac.Equal([]byte(expectedSig), []byte(signature)) {
-			http.Error(w, "403 Forbidden - Verification of secret failed.", http.StatusForbidden)
-			return
-		}
+	if s.Secret != "" && !s.verifyAuth(respBody, req) {
+		http.Error(w, "403 Forbidden - Verification of secret failed.", http.StatusForbidden)
+		return
 	}
-	var payload interface{}
-	switch EventType(eventType) {
-	case PushEventType:
-		payload = &PushEvent{}
-	case PingEventType:
-		payload = &PingEvent{}
-	}
-	if err := json.Unmarshal(body, &payload); err != nil {
-		http.Error(w, "500 Internal Error - Could not unmarshal request: "+err.Error(), http.StatusInternalServerError)
-	}
-	go func() {
-		et := &EventAndType{
-			Event: payload,
-			Type:  EventType(eventType),
-		}
-		s.EventAndTypes <- et
-	}()
+	go s.processPacket(EventType(eventType), respBody)
 }
 
 // ListenAndServe simply returns the error received from a call of
