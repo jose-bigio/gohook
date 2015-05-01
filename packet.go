@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 )
 
+// SenderType represents the structure of the sender field in push/ping events.
 type SenderType struct {
 	Login             string `json:"login"`
 	ID                int    `json:"id"`
@@ -24,17 +25,20 @@ type SenderType struct {
 	SiteAdmin         bool   `json:"site_admin"`
 }
 
+// UserType represents the structure of a user as used in commits.
 type UserType struct {
 	Name     string `json:"name"`
 	Email    string `json:"email"`
 	Username string `json:"username"`
 }
 
+// PusherType represents the structure of a user as used in PushEvents.
 type PusherType struct {
 	Name  string `json:"name"`
 	Email string `json:"email"`
 }
 
+// OrgType represents the structure of an organization as used in ping/push events.
 type OrgType struct {
 	Login            string `json:"login"`
 	ID               int    `json:"id"`
@@ -47,6 +51,7 @@ type OrgType struct {
 	Description      string `json:"description"`
 }
 
+// CommitType represents the structure of a commit as used in push events.
 type CommitType struct {
 	ID        string   `json:"id"`
 	Distinct  bool     `json:"distinct"`
@@ -60,6 +65,7 @@ type CommitType struct {
 	Modified  []string `json:"modified"`
 }
 
+// RepoType represents the structure of a repository as used in push events.
 type RepoType struct {
 	ID               int        `json:"id"`
 	Name             string     `json:"name"`
@@ -133,6 +139,7 @@ type RepoType struct {
 	Organization     string     `json:"organization"`
 }
 
+// PushEvent represents the basic, top-level structure of a push event.
 type PushEvent struct {
 	Ref          string       `json:"ref"`
 	Before       string       `json:"before"`
@@ -150,6 +157,7 @@ type PushEvent struct {
 	Sender       SenderType   `json:"sender"`
 }
 
+// PingEvent represents the basic, top-level structure of a ping event.
 type PingEvent struct {
 	Zen          string          `json:"zen"`
 	HookID       int             `json:"hook_id"`
@@ -158,13 +166,16 @@ type PingEvent struct {
 	Sender       SenderType      `json:"sender"`
 }
 
+// EventType is an alias for string that provides type safety for the event types.
 type EventType string
 
+// These constants define types for the implemented types of packets.
 const (
 	PingEventType = EventType("ping")
 	PushEventType = EventType("push")
 )
 
+// EventAndType holds an event and its type, to be used later in a type assertion on the event.
 type EventAndType struct {
 	Event interface{}
 	Type  EventType

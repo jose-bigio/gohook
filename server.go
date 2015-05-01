@@ -10,6 +10,9 @@ import (
 	"net/http"
 )
 
+// Server is the basic type that listens for webhook events and pushes them onto
+// the EventAndTypes channel. You should create a Server through the NewServer
+// function.
 type Server struct {
 	Port          int
 	Secret        string
@@ -17,6 +20,9 @@ type Server struct {
 	EventAndTypes chan *EventAndType
 }
 
+// NewServer creates a new server with the given settings. If secret is the
+// zero-length string, no security verification will be done. Path should be
+// specified with a leading slash.
 func NewServer(port int, secret string, path string) *Server {
 	return &Server{
 		Port:          port,
@@ -26,6 +32,8 @@ func NewServer(port int, secret string, path string) *Server {
 	}
 }
 
+// ServeHTTP implements http.Handler interface on Server. You should never need
+// to call this yourself.
 func (s *Server) ServeHTTP(w http.ResponseWriter, req *http.Request) {
 	defer req.Body.Close()
 
@@ -86,10 +94,16 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, req *http.Request) {
 	}()
 }
 
+// ListenAndServe simply returns the error received from a call of
+// http.ListenAndServe() with the correct parameters. Use this function if you
+// want the call to block.
 func (s *Server) ListenAndServe() error {
 	return http.ListenAndServe(fmt.Sprintf(":%v", s.Port), s)
 }
 
+// GoListenAndServe is a convenience function that runs Server.ListenAndServe()
+// in a goroutine and panics upon receipt of an error. Use this function if
+// you do not want the call to block.
 func (s *Server) GoListenAndServe() {
 	go func() {
 		err := s.ListenAndServe()
