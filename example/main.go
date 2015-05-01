@@ -21,25 +21,25 @@ func main() {
 		case gohook.PingEventType:
 			packet, ok := eAndT.Event.(*gohook.PingEvent)
 			if !ok {
-				panic("Could not assert PingEvent as such.")
+				panic("Could not assert *PingEvent as such.")
 			}
 			fmt.Println(packet.Organization.Login)
 		case gohook.PushEventType:
 			packet, ok := eAndT.Event.(*gohook.PushEvent)
 			if !ok {
-				panic("Could not assert PushEvent as such.")
+				panic("Could not assert *PushEvent as such.")
 			}
 			fmt.Println(packet.Organization.Login)
 		case gohook.CommitCommentType:
 			packet, ok := eAndT.Event.(*gohook.CommitCommentEvent)
 			if !ok {
-				panic("Could not assert CommitCommentEvent as such.")
+				panic("Could not assert *CommitCommentEvent as such.")
 			}
 			fmt.Println(packet.Comment.Body)
 		case gohook.IssueCommentType:
 			packet, ok := eAndT.Event.(*gohook.IssueCommentEvent)
 			if !ok {
-				panic("Could not assert IssueCommentEvent as such.")
+				panic("Could not assert *IssueCommentEvent as such.")
 			}
 			fmt.Println(packet.Comment.Body)
 		}

@@ -9,30 +9,30 @@ import (
 	"time"
 )
 
-func TestPingGithub(t *testing.T) {
-	server := NewServer(8888, "secret", "/postreceive")
-	server.GoListenAndServe()
-	_, err := http.Post("https://api.github.com/orgs/fireside-chat/hooks/4719659/pings", "application/json", nil)
-	if err != nil {
-		t.Errorf("Error requesting ping: %s", err)
-	}
-	var packet *EventAndType
-	select {
-	case packet = <-server.EventAndTypes:
-		if packet.Type != PingEventType {
-			t.Errorf("Incorrect packet type, got %s", packet.Type)
-		}
-	case <-time.After(time.Duration(3) * time.Second):
-		t.Error("Timeout when waiting for ping.")
-	}
-	payload, ok := packet.Event.(*PingEvent)
-	if !ok {
-		t.Error("Error asserting payload as *PingEvent.")
-	}
-	if !payload.Hook.Active {
-		t.Error("Incorrect payload.Hook.Active value.")
-	}
-}
+// func TestPingGithub(t *testing.T) {
+// 	server := NewServer(8888, "secret", "/postreceive")
+// 	server.GoListenAndServe()
+// 	_, err := http.Post("https://api.github.com/orgs/fireside-chat/hooks/4719659/pings", "application/json", nil)
+// 	if err != nil {
+// 		t.Errorf("Error requesting ping: %s", err)
+// 	}
+// 	var packet *EventAndType
+// 	select {
+// 	case packet = <-server.EventAndTypes:
+// 		if packet.Type != PingEventType {
+// 			t.Errorf("Incorrect packet type, got %s", packet.Type)
+// 		}
+// 	case <-time.After(time.Duration(3) * time.Second):
+// 		t.Error("Timeout when waiting for ping.")
+// 	}
+// 	payload, ok := packet.Event.(*PingEvent)
+// 	if !ok {
+// 		t.Error("Error asserting payload as *PingEvent.")
+// 	}
+// 	if !payload.Hook.Active {
+// 		t.Error("Incorrect payload.Hook.Active value.")
+// 	}
+// }
 
 func TestPingEvent(t *testing.T) {
 	raw, err := ioutil.ReadFile("testdata/sample_ping.json")
