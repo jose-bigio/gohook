@@ -8,7 +8,7 @@ import (
 
 func main() {
 	// Create and start the server.
-	server := gohook.NewServer(8000, "secret", "/postreceive")
+	server := gohook.NewServer(8888, "secret", "/postreceive")
 	server.GoListenAndServe()
 
 	// Loop continuously, blocking on a receive from server.EventAndTypes
@@ -30,6 +30,12 @@ func main() {
 				panic("Could not assert PushEvent as such.")
 			}
 			fmt.Println(packet.Organization.Login)
+		case gohook.CommitCommentType:
+			packet, ok := eAndT.Event.(*gohook.CommitCommentEvent)
+			if !ok {
+				panic("Could not assert CommitCommentEvent as such.")
+			}
+			fmt.Println(packet.Comment.Body)
 		}
 	}
 }

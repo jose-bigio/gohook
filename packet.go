@@ -1,9 +1,5 @@
 package gohook
 
-import (
-	"encoding/json"
-)
-
 // SenderType represents the structure of the sender field in push/ping events.
 type SenderType struct {
 	Login             string `json:"login"`
@@ -157,13 +153,51 @@ type PushEvent struct {
 	Sender       SenderType   `json:"sender"`
 }
 
+type ConfigType struct {
+	URL         string `json:"url"`
+	ContentType string `json:"content_type"`
+}
+
+type HookType struct {
+	ID        int        `json:"id"`
+	URL       string     `json:"url"`
+	TestURL   string     `json:"test_url"`
+	PingURL   string     `json:"ping_url"`
+	Name      string     `json:"name"`
+	Events    []string   `json:"events"`
+	Active    bool       `json:"active"`
+	Config    ConfigType `json:"config"`
+	UpdatedAt string     `json:"updated_at"`
+	CreatedAt string     `json:"created_at"`
+}
+
 // PingEvent represents the basic, top-level structure of a ping event.
 type PingEvent struct {
-	Zen          string          `json:"zen"`
-	HookID       int             `json:"hook_id"`
-	Hook         json.RawMessage `json:"hook"`
-	Organization OrgType         `json:"organization"`
-	Sender       SenderType      `json:"sender"`
+	Zen          string     `json:"zen"`
+	HookID       int        `json:"hook_id"`
+	Hook         HookType   `json:"hook"`
+	Organization OrgType    `json:"organization"`
+	Sender       SenderType `json:"sender"`
+}
+
+type CommentType struct {
+	URL       string     `json:"url"`
+	HTMLURL   string     `json:"html_url"`
+	ID        int        `json:"id"`
+	User      SenderType `json:"user"`
+	Position  string     `json:"position"`
+	Line      string     `json:"line"`
+	Path      string     `json:"path"`
+	CommitID  string     `json:"commit_id"`
+	CreatedAt string     `json:"created_at"`
+	UpdatedAt string     `json:"created_at"`
+	Body      string     `json:"body"`
+}
+
+type CommitCommentEvent struct {
+	Comment    CommentType `json:"comment"`
+	Repository RepoType    `json:"repository"`
+	Sender     SenderType  `json:"sender"`
 }
 
 // EventType is an alias for string that provides type safety for the event types.
@@ -171,8 +205,9 @@ type EventType string
 
 // These constants define types for the implemented types of packets.
 const (
-	PingEventType = EventType("ping")
-	PushEventType = EventType("push")
+	PingEventType     = EventType("ping")
+	PushEventType     = EventType("push")
+	CommitCommentType = EventType("commit_comment")
 )
 
 // EventAndType holds an event and its type, to be used later in a type assertion on the event.

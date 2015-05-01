@@ -7,6 +7,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
+	"log"
 	"net/http"
 )
 
@@ -54,6 +55,11 @@ func (s *Server) processPacket(eventType EventType, respBody []byte) {
 		payload = &PushEvent{}
 	case PingEventType:
 		payload = &PingEvent{}
+	case CommitCommentType:
+		payload = &CommitCommentEvent{}
+	default:
+		log.Printf("Attempt to process unknown packet type: %s", eventType)
+		return
 	}
 	if err := json.Unmarshal(respBody, &payload); err != nil {
 		panic(err)
@@ -82,9 +88,6 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, req *http.Request) {
 	if eventType == "" {
 		http.Error(w, "400 Bad Request - Missing X-Github-Event Header", http.StatusBadRequest)
 		return
-	}
-	if eventType != "ping" && eventType != "push" {
-		http.Error(w, "500 Internal Server Error - Event type not yet implemented.", http.StatusInternalServerError)
 	}
 
 	respBody, err := ioutil.ReadAll(req.Body)
