@@ -236,7 +236,7 @@ type MilestoneType struct {
 	DueOn        string     `json:"due_on"`
 }
 
-type PullRequestType struct {
+type ShortPullRequestType struct {
 	URL      string `json:"url"`
 	HTMLURL  string `json:"html_url"`
 	DiffURL  string `json:"diff_url"`
@@ -244,22 +244,22 @@ type PullRequestType struct {
 }
 
 type IssueType struct {
-	ID          string          `json:"id"`
-	URL         string          `json:"url"`
-	HTMLURL     string          `json:"html_url"`
-	Number      int             `json:"number"`
-	State       string          `json:"state"`
-	Title       string          `json:"title"`
-	Body        string          `json:"body"`
-	User        SenderType      `json:"user"`
-	Labels      []LabelType     `json:"labels"`
-	Assignee    SenderType      `json:"assignee"`
-	Milestone   MilestoneType   `json:"milestone"`
-	Comments    int             `json:"comments"`
-	PullRequest PullRequestType `json:"pull_request"`
-	ClosedAt    string          `json:"closed_at"`
-	CreatedAt   string          `json:"created_at"`
-	UpdatedAt   string          `json:"updated_at"`
+	ID          string               `json:"id"`
+	URL         string               `json:"url"`
+	HTMLURL     string               `json:"html_url"`
+	Number      int                  `json:"number"`
+	State       string               `json:"state"`
+	Title       string               `json:"title"`
+	Body        string               `json:"body"`
+	User        SenderType           `json:"user"`
+	Labels      []LabelType          `json:"labels"`
+	Assignee    SenderType           `json:"assignee"`
+	Milestone   MilestoneType        `json:"milestone"`
+	Comments    int                  `json:"comments"`
+	PullRequest ShortPullRequestType `json:"pull_request"`
+	ClosedAt    string               `json:"closed_at"`
+	CreatedAt   string               `json:"created_at"`
+	UpdatedAt   string               `json:"updated_at"`
 }
 
 type IssueCommentEvent struct {
@@ -334,20 +334,187 @@ type DeploymentEvent struct {
 	Sender      SenderType        `json:"sender"`
 }
 
+type DeploymentStatusType struct {
+	URL           string     `json:"url"`
+	ID            string     `json:"id"`
+	State         string     `json:"state"`
+	Creator       SenderType `json:"creator"`
+	Description   string     `json:"description"`
+	TargetURL     string     `json:"target_url"`
+	CreatedAt     string     `json:"created_at"`
+	UpdatedAt     string     `json:"updated_at"`
+	DeploymentURL string     `json:"deployment_url"`
+	RepositoryURL string     `json:"repository_url"`
+}
+
+type DeploymentStatusEvent struct {
+	Deployment       DeploymentType       `json:"deployment"`
+	DeploymentStatus DeploymentStatusType `json:"deployment_status"`
+	ID               string               `json:"id"`
+	State            string               `json:"state"`
+	TargetURL        string               `json:"target_url"`
+	Description      string               `json:"description"`
+	Repository       RepoType             `json:"repository"`
+	Sender           SenderType           `json:"sender"`
+}
+
+type ForkEvent struct {
+	Forkee     RepoType   `json:"forkee"`
+	Repository RepoType   `json:"repository"`
+	Sender     SenderType `json:"sender"`
+}
+
+type PageType struct {
+	PageName string `json:"page_name"`
+	Title    string `json:"title"`
+	Summary  string `json:"summary"`
+	Action   string `json:"action"`
+	SHA      string `json:"sha"`
+	HTMLURL  string `json:"html_url"`
+}
+
+type GollumEvent struct {
+	Pages      []PageType `json:"pages"`
+	Repository RepoType   `json:"repository"`
+	Sender     SenderType `json:"sender"`
+}
+
+type MemberEvent struct {
+	Action     string     `json:"action"`
+	Member     SenderType `json:"member"`
+	Repository RepoType   `json:"repository"`
+	Sender     SenderType `json:"sender"`
+}
+
+type TeamType struct {
+	Name            string `json:"name"`
+	ID              string `json:"id"`
+	Slug            string `json:"slug"`
+	Permission      string `json:"permission"`
+	URL             string `json:"url"`
+	MembersURL      string `json:"members_url"`
+	RepositoriesURL string `json:"repositories_url"`
+}
+
+type MembershipEvent struct {
+	Action       string     `json:"action"`
+	Scope        string     `json:"scope"`
+	Member       SenderType `json:"member"`
+	Team         TeamType   `json:"team"`
+	Sender       SenderType `json:"sender"`
+	Organization OrgType    `json:"organization"`
+}
+
+type BuildType struct {
+	URL       string     `json:"url"`
+	Status    string     `json:"status"`
+	Error     ErrorType  `json:"error"`
+	Pusher    SenderType `json:"pusher"`
+	Commit    string     `json:"commit"`
+	Duration  int        `json:"duration"`
+	CreatedAt string     `json:"created_at"`
+	UpdatedAt string     `json:"updated_at"`
+}
+
+type PageBuildEvent struct {
+	ID         string        `json:"id"`
+	Build      PageBuildType `json:"build"`
+	Repository RepoType      `json:"repository"`
+	Sender     SenderType    `json:"sender"`
+}
+
+type PublicEvent struct {
+	Repository RepoType   `json:"repository"`
+	Sender     SenderType `json:"sender"`
+}
+
+type BaseHeadType struct {
+	Label string     `json:"label"`
+	Ref   string     `json:"ref"`
+	SHA   string     `json:"sha"`
+	User  SenderType `json:"user"`
+	Repo  RepoType   `json:"repo"`
+}
+
+type Link struct {
+	HREF string `json:"href"`
+}
+
+type PullRequestType struct {
+	ID                string          `json:"id"`
+	URL               string          `json:"url"`
+	HTMLURL           string          `json:"html_url"`
+	DiffURL           string          `json:"diff_url"`
+	PatchURL          string          `json:"patch_url"`
+	IssueURL          string          `json:"issue_url"`
+	CommitsURL        string          `json:"commits_url"`
+	ReviewCommentsURL string          `json:"review_comments_url"`
+	ReviewCommentURL  string          `json:"review_comment_url"`
+	CommentsURL       string          `json:"comments_url"`
+	StatusesURL       string          `json:"statuses_url"`
+	Number            int             `json:"number"`
+	State             string          `json:"state"`
+	Title             string          `json:"title"`
+	Body              string          `json:"body"`
+	CreatedAt         string          `json:"created_at"`
+	UpdatedAt         string          `json:"updated_at"`
+	ClosedAt          string          `json:"closed_at"`
+	MergedAt          string          `json:"merged_at"`
+	Head              BaseHeadType    `json:"head"`
+	Repo              RepoType        `json:"repo"`
+	Base              BaseHeadType    `json:"Base"`
+	Links             map[string]Link `json:"_links"`
+	User              SenderType      `json:"User"`
+	MergeCommitSHA    string          `json:"merge_commit_sha"`
+	Merged            bool            `json:"merged"`
+	Mergeable         bool            `json:"mergeable"`
+	MergedBy          SenderType      `json:"merged_by"`
+	Comments          int             `json:"comments"`
+	Commits           int             `json:"commits"`
+	Additions         int             `json:"additions"`
+	Deletions         int             `json:"deletions"`
+	ChangedFiles      int             `json:"changed_files"`
+}
+
+type PullRequestEvent struct {
+	Action      string          `json:"action"`
+	Number      int             `json:"number"`
+	PullRequest PullRequestType `json:"pull_request"`
+	Repository  RepoType        `json:"repository"`
+	Sender      SenderType      `json:"sender"`
+}
+
+type PullRequestReviewCommentEvent struct {
+	Action      string                   `json:"action"`
+	Comment     PullRequestReviewComment `json:"comment"`
+	PullRequest string                   `json:"pull_request"`
+	Repository  RepoType                 `json:"repository"`
+	Sender      SenderType               `json:"sender"`
+}
+
 // EventType is an alias for string that provides type safety for the event types.
 type EventType string
 
 // These constants define types for the implemented types of packets.
 const (
-	PingEventType          = EventType("ping")
-	PushEventType          = EventType("push")
-	CommitCommentEventType = EventType("commit_comment")
-	IssueCommentEventType  = EventType("issue_comment")
-	IssuesEventType        = EventType("issues")
-	CreateEventType        = EventType("create")
-	DeleteEventType        = EventType("delete")
-	RepositoryEventType    = EventType("repository")
-	DeploymentEventType    = EventType("deployment")
+	PingEventType                     = EventType("ping")
+	PushEventType                     = EventType("push")
+	CommitCommentEventType            = EventType("commit_comment")
+	IssueCommentEventType             = EventType("issue_comment")
+	IssuesEventType                   = EventType("issues")
+	CreateEventType                   = EventType("create")
+	DeleteEventType                   = EventType("delete")
+	RepositoryEventType               = EventType("repository")
+	DeploymentEventType               = EventType("deployment")
+	DeploymentStatusEventType         = EventType("deployment_status")
+	ForkEventType                     = EventType("fork")
+	GollumEventType                   = EventType("gollum")
+	MemberEventType                   = EventType("member")
+	MembershipEventType               = EventType("membership")
+	PageBuildEventType                = EventType("page_build")
+	PublicEventType                   = EventType("public")
+	PullRequestEventType              = EventType("pull_request")
+	PullRequestReviewCommentEventType = EventType("pull_request_review_comment")
 )
 
 // EventAndType holds an event and its type, to be used later in a type assertion on the event.
