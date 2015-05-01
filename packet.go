@@ -1,5 +1,7 @@
 package gohook
 
+// import "encoding/json"
+
 // SenderType represents the structure of the sender field in push/ping events.
 type SenderType struct {
 	Login             string `json:"login"`
@@ -190,7 +192,7 @@ type CommentType struct {
 	Path      string     `json:"path"`
 	CommitID  string     `json:"commit_id"`
 	CreatedAt string     `json:"created_at"`
-	UpdatedAt string     `json:"created_at"`
+	UpdatedAt string     `json:"updated_at"`
 	Body      string     `json:"body"`
 }
 
@@ -200,14 +202,83 @@ type CommitCommentEvent struct {
 	Sender     SenderType  `json:"sender"`
 }
 
+type IssueCommentType struct {
+	ID        int        `json:"id"`
+	URL       string     `json:"url"`
+	HTMLURL   string     `json:"html_url"`
+	Body      string     `json:"body"`
+	User      SenderType `json:"user"`
+	CreatedAt string     `json:"created_at"`
+	UpdatedAt string     `json:"created_at"`
+}
+
+type LabelType struct {
+	URL   string `json:"url"`
+	Name  string `json:"name"`
+	Color string `json:"color"`
+}
+
+type MilestoneType struct {
+	URL          string     `json:"url"`
+	HTMLURL      string     `json:"html_url"`
+	LabelsURL    string     `json:"labels_url"`
+	ID           int        `json:"id"`
+	Number       int        `json:"number"`
+	State        string     `json:"state"`
+	Title        string     `json:"title"`
+	Description  string     `json:"description"`
+	Creator      SenderType `json:"creator"`
+	OpenIssues   int        `json:"open_issues"`
+	ClosedIssues int        `json:"closed_issues"`
+	CreatedAt    string     `json:"created_at"`
+	UpdatedAt    string     `json:"updated_at"`
+	ClosedAt     string     `json:"closed_at"`
+	DueOn        string     `json:"due_on"`
+}
+
+type PullRequestType struct {
+	URL      string `json:"url"`
+	HTMLURL  string `json:"html_url"`
+	DiffURL  string `json:"diff_url"`
+	PatchURL string `json:"patch_url"`
+}
+
+type IssueType struct {
+	ID          string          `json:"id"`
+	URL         string          `json:"url"`
+	HTMLURL     string          `json:"html_url"`
+	Number      int             `json:"number"`
+	State       string          `json:"state"`
+	Title       string          `json:"title"`
+	Body        string          `json:"body"`
+	User        SenderType      `json:"user"`
+	Labels      []LabelType     `json:"labels"`
+	Assignee    SenderType      `json:"assignee"`
+	Milestone   MilestoneType   `json:"milestone"`
+	Comments    int             `json:"comments"`
+	PullRequest PullRequestType `json:"pull_request"`
+	ClosedAt    string          `json:"closed_at"`
+	CreatedAt   string          `json:"created_at"`
+	UpdatedAt   string          `json:"updated_at"`
+}
+
+type IssueCommentEvent struct {
+	Action     string           `json:"action"`
+	Issue      IssueType        `json:"issue"`
+	Comment    IssueCommentType `json:"comment"`
+	Repository RepoType         `json:"repository"`
+	Sender     SenderType       `json:"sender"`
+}
+
 // EventType is an alias for string that provides type safety for the event types.
 type EventType string
 
 // These constants define types for the implemented types of packets.
 const (
-	PingEventType     = EventType("ping")
-	PushEventType     = EventType("push")
-	CommitCommentType = EventType("commit_comment")
+	PingEventType          = EventType("ping")
+	PushEventType          = EventType("push")
+	CommitCommentEventType = EventType("commit_comment")
+	IssueCommentEventType  = EventType("issue_comment")
 )
 
 // EventAndType holds an event and its type, to be used later in a type assertion on the event.
