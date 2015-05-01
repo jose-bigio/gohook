@@ -67,6 +67,8 @@ func (s *Server) processPacket(eventType EventType, respBody []byte) {
 		payload = &DeleteEvent{}
 	case RepositoryEventType:
 		payload = &RepositoryEvent{}
+	case DeploymentEventType:
+		payload = &DeploymentEvent{}
 	default:
 		log.Printf("Attempt to process unknown packet type: %s", eventType)
 		return

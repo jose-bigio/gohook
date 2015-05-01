@@ -304,6 +304,36 @@ type RepositoryEvent struct {
 	Sender       SenderType `json:"sender"`
 }
 
+type DeploymentType struct {
+	URL           string            `json:"url"`
+	ID            string            `json:"id"`
+	SHA           string            `json:"sha"`
+	Ref           string            `json:"ref"`
+	Task          string            `json:"task"`
+	Payload       map[string]string `json:"payload"`
+	Environment   string            `json:"environment"`
+	Description   string            `json:"description"`
+	Creator       SenderType        `json:"creator"`
+	CreatedAt     string            `json:"created_at"`
+	UpdatedAt     string            `json:"updated_at"`
+	StatusesURL   string            `json:"statuses_url"`
+	RepositoryURL string            `json:"repository_url"`
+}
+
+type DeploymentEvent struct {
+	Deployment  DeploymentType    `json:"deployment"`
+	ID          string            `json:"id"`
+	SHA         string            `json:"sha"`
+	Ref         string            `json:"ref"`
+	Task        string            `json:"task"`
+	Name        string            `json:"name"`
+	Environment string            `json:"environment"`
+	Payload     map[string]string `json:"payload"`
+	Description string            `json:"description"`
+	Repository  RepoType          `json:"repository"`
+	Sender      SenderType        `json:"sender"`
+}
+
 // EventType is an alias for string that provides type safety for the event types.
 type EventType string
 
@@ -317,6 +347,7 @@ const (
 	CreateEventType        = EventType("create")
 	DeleteEventType        = EventType("delete")
 	RepositoryEventType    = EventType("repository")
+	DeploymentEventType    = EventType("deployment")
 )
 
 // EventAndType holds an event and its type, to be used later in a type assertion on the event.
