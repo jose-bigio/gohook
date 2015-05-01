@@ -36,6 +36,12 @@ func main() {
 				panic("Could not assert CommitCommentEvent as such.")
 			}
 			fmt.Println(packet.Comment.Body)
+		case gohook.IssueCommentType:
+			packet, ok := eAndT.Event.(*gohook.IssueCommentEvent)
+			if !ok {
+				panic("Could not assert IssueCommentEvent as such.")
+			}
+			fmt.Println(packet.Comment.Body)
 		}
 	}
 }

@@ -279,6 +279,16 @@ type IssuesEvent struct {
 	Sender     SenderType `json:"sender"`
 }
 
+type CreateEvent struct {
+	RefType      string     `json:"ref_type"`
+	Ref          string     `json:"ref"`
+	MasterBranch string     `json:"master_branch"`
+	Description  string     `json:"description"`
+	PusherType   string     `json:"pusher_type"`
+	Repository   RepoType   `json:"repository"`
+	Sender       SenderType `json:"sender"`
+}
+
 // EventType is an alias for string that provides type safety for the event types.
 type EventType string
 
@@ -289,6 +299,7 @@ const (
 	CommitCommentEventType = EventType("commit_comment")
 	IssueCommentEventType  = EventType("issue_comment")
 	IssuesEventType        = EventType("issues")
+	CreateEventType        = EventType("create")
 )
 
 // EventAndType holds an event and its type, to be used later in a type assertion on the event.

@@ -61,6 +61,8 @@ func (s *Server) processPacket(eventType EventType, respBody []byte) {
 		payload = &IssueCommentEvent{}
 	case IssuesEventType:
 		payload = &IssuesEvent{}
+	case CreateEventType:
+		payload = &CreateEvent{}
 	default:
 		log.Printf("Attempt to process unknown packet type: %s", eventType)
 		return
