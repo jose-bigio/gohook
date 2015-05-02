@@ -28,7 +28,7 @@ func TestPingGithub(t *testing.T) {
 		t.Errorf("Error requesting ping: %s", err)
 	}
 	if resp.StatusCode != 204 {
-		t.Errorf("Bad status code requesting ping: %s", resp.StatusCode)
+		t.Errorf("Bad status code requesting ping: %v", resp.StatusCode)
 	}
 	fmt.Println(resp.StatusCode)
 	var packet *EventAndType
