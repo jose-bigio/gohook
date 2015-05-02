@@ -3,36 +3,44 @@ package gohook
 import (
 	"bytes"
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
 	"net/http"
 	"testing"
 	"time"
 )
 
-// func TestPingGithub(t *testing.T) {
-// 	server := NewServer(8888, "secret", "/postreceive")
-// 	server.GoListenAndServe()
-// 	_, err := http.Post("https://api.github.com/orgs/fireside-chat/hooks/4719659/pings", "application/json", nil)
-// 	if err != nil {
-// 		t.Errorf("Error requesting ping: %s", err)
-// 	}
-// 	var packet *EventAndType
-// 	select {
-// 	case packet = <-server.EventAndTypes:
-// 		if packet.Type != PingEventType {
-// 			t.Errorf("Incorrect packet type, got %s", packet.Type)
-// 		}
-// 	case <-time.After(time.Duration(3) * time.Second):
-// 		t.Error("Timeout when waiting for ping.")
-// 	}
-// 	payload, ok := packet.Event.(*PingEvent)
-// 	if !ok {
-// 		t.Error("Error asserting payload as *PingEvent.")
-// 	}
-// 	if !payload.Hook.Active {
-// 		t.Error("Incorrect payload.Hook.Active value.")
-// 	}
-// }
+func TestPingGithub(t *testing.T) {
+	server := NewServer(8888, "secret", "/postreceive")
+	server.GoListenAndServe()
+	req, _ := http.NewRequest("POST", "https://api.github.com/orgs/fireside-chat/hooks/4719659/pings", nil)
+	req.SetBasicAuth("cpalone", password)
+	client := &http.Client{}
+	resp, err := client.Do(req)
+	if err != nil {
+		t.Errorf("Error requesting ping: %s", err)
+	}
+	if resp.StatusCode != 204 {
+		t.Errorf("Bad status code requesting ping: %s", resp.StatusCode)
+	}
+	fmt.Println(resp.StatusCode)
+	var packet *EventAndType
+	select {
+	case packet = <-server.EventAndTypes:
+		if packet.Type != PingEventType {
+			t.Errorf("Incorrect packet type, got %s", packet.Type)
+		}
+	case <-time.After(time.Duration(3) * time.Second):
+		t.Fatal("Timeout when waiting for ping.")
+	}
+	payload, ok := packet.Event.(*PingEvent)
+	if !ok {
+		t.Error("Error asserting payload as *PingEvent.")
+	}
+	if !payload.Hook.Active {
+		t.Error("Incorrect payload.Hook.Active value.")
+	}
+}
 
 func TestPingEvent(t *testing.T) {
 	raw, err := ioutil.ReadFile("testdata/sample_ping.json")
