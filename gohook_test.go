@@ -201,14 +201,14 @@ func TestCreateEvent(t *testing.T) {
 func TestRepositoryEvent(t *testing.T) {
 	raw, err := ioutil.ReadFile("testdata/sample_repository.json")
 	if err != nil {
-		t.Errorf("Error reading sample create file: %s", err)
+		t.Errorf("Error reading sample repo file: %s", err)
 	}
 	server := NewServer(8888, "secret", "path")
 	server.processPacket(RepositoryEventType, raw)
 	packet := <-server.EventAndTypes
 	payload, ok := packet.Event.(*RepositoryEvent)
 	if !ok {
-		t.Error("Error asserting payload as *CreateEvent.")
+		t.Error("Error asserting payload as *RepositoryEvent.")
 	}
 	if payload.Action != "created" {
 		t.Error("Incorrect payload.Action value.")
@@ -218,6 +218,27 @@ func TestRepositoryEvent(t *testing.T) {
 	}
 	_, err = json.Marshal(payload)
 	if err != nil {
-		t.Errorf("Error marshalling TeamAddEvent: %s", err)
+		t.Errorf("Error marshalling RepositoryEvent: %s", err)
+	}
+}
+
+func TestDeleteEvent(t *testing.T) {
+	raw, err := ioutil.ReadFile("testdata/sample_delete.json")
+	if err != nil {
+		t.Errorf("Error reading sample delete file: %s", err)
+	}
+	server := NewServer(8888, "secret", "path")
+	server.processPacket(DeleteEventType, raw)
+	packet := <-server.EventAndTypes
+	payload, ok := packet.Event.(*DeleteEvent)
+	if !ok {
+		t.Error("Error asserting payload as *DeleteEvent.")
+	}
+	if payload.Ref != "simple-tag" {
+		t.Error("Incorrect payload.Ref value.")
+	}
+	_, err = json.Marshal(payload)
+	if err != nil {
+		t.Errorf("Error marshalling DeleteEvent: %s", err)
 	}
 }
