@@ -14,7 +14,7 @@ func TestPingGithub(t *testing.T) {
 	server := NewServer(8888, "secret", "/postreceive")
 	server.GoListenAndServe()
 	req, _ := http.NewRequest("POST", "https://api.github.com/orgs/fireside-chat/hooks/4719659/pings", nil)
-	req.SetBasicAuth("cpalone", password)
+	req.SetBasicAuth("cpalone", PASSWORD)
 	client := &http.Client{}
 	resp, err := client.Do(req)
 	if err != nil {
