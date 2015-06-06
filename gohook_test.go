@@ -12,21 +12,6 @@ import (
 	"time"
 )
 
-// func (s *Server) verifyAuth(body []byte, req *http.Request) bool {
-// 	signature := req.Header.Get("X-Hub-Signature")
-// 	if signature == "" {
-// 		return false
-// 	}
-// 	mac := hmac.New(sha1.New, []byte(s.Secret))
-// 	mac.Write(body)
-// 	expectedMAC := mac.Sum(nil)
-// 	expectedSig := "sha1=" + hex.EncodeToString(expectedMAC)
-// 	if !hmac.Equal([]byte(expectedSig), []byte(signature)) {
-// 		return false
-// 	}
-// 	return true
-// }
-
 func SendRequest(method, url, secret, eventHeader string, body []byte) (*http.Response, error) {
 	req, err := http.NewRequest(method, url, bytes.NewBuffer(body))
 	if err != nil {
@@ -63,7 +48,14 @@ func TestCreateEvent(t *testing.T) {
 		t.Errorf("Bad status code: %s", resp.StatusCode)
 	}
 	select {
-	case <-hookServer.EventAndTypes:
+	case et := <-hookServer.EventAndTypes:
+		if et.Type != CreateEventType {
+			t.Errorf("Incorrect event type from server: %s", et.Type)
+		}
+		_, ok := et.Event.(*CreateEvent)
+		if !ok {
+			t.Error("Could not assert event as *CreateEvent.")
+		}
 		return
 	case <-time.After(time.Second):
 		t.Error("Timeout waiting for event from server.")

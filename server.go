@@ -116,10 +116,12 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, req *http.Request) {
 
 	if req.Method != "POST" {
 		http.Error(w, "405 Method not allowed", http.StatusMethodNotAllowed)
+		return
 	}
 
 	if req.URL.Path != s.Path {
 		http.Error(w, "404 Not found- expected "+s.Path, http.StatusNotFound)
+		return
 	}
 
 	eventType := req.Header.Get("X-Github-Event")
