@@ -51,22 +51,12 @@ func (s *Server) verifyAuth(body []byte, req *http.Request) bool {
 func (s *Server) processPacket(eventType EventType, respBody []byte) {
 	var payload interface{}
 	switch eventType {
-	case PushEventType:
-		payload = &PushEvent{}
-	case PingEventType:
-		payload = &PingEvent{}
 	case CommitCommentEventType:
 		payload = &CommitCommentEvent{}
-	case IssueCommentEventType:
-		payload = &IssueCommentEvent{}
-	case IssuesEventType:
-		payload = &IssuesEvent{}
 	case CreateEventType:
 		payload = &CreateEvent{}
 	case DeleteEventType:
 		payload = &DeleteEvent{}
-	case RepositoryEventType:
-		payload = &RepositoryEvent{}
 	case DeploymentEventType:
 		payload = &DeploymentEvent{}
 	case DeploymentStatusEventType:
@@ -75,20 +65,30 @@ func (s *Server) processPacket(eventType EventType, respBody []byte) {
 		payload = &ForkEvent{}
 	case GollumEventType:
 		payload = &GollumEvent{}
+	case IssueCommentEventType:
+		payload = &IssueCommentEvent{}
+	case IssuesEventType:
+		payload = &IssuesEvent{}
 	case MemberEventType:
 		payload = &MemberEvent{}
 	case MembershipEventType:
 		payload = &MembershipEvent{}
 	case PageBuildEventType:
 		payload = &PageBuildEvent{}
+	case PingEventType:
+		payload = &PingEvent{}
 	case PublicEventType:
 		payload = &PublicEvent{}
 	case PullRequestEventType:
 		payload = &PullRequestEvent{}
 	case PullRequestReviewCommentEventType:
 		payload = &PullRequestReviewCommentEvent{}
+	case PushEventType:
+		payload = &PushEvent{}
 	case ReleaseEventType:
 		payload = &ReleaseEvent{}
+	case RepositoryEventType:
+		payload = &RepositoryEvent{}
 	case StatusEventType:
 		payload = &StatusEvent{}
 	case TeamAddEventType:
