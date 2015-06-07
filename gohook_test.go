@@ -62,224 +62,64 @@ func TestCreateEvent(t *testing.T) {
 	}
 }
 
-// func TestCreateEvent(t *testing.T) {
-// 	raw, err := ioutil.ReadFile("testdata/sample_create.json")
-// 	if err != nil {
-// 		t.Errorf("Error reading sample create file: %s", err)
-// 	}
-// 	hookServer := NewServer(8888, "secret", "path")
-// 	server := httptest.NewServer(hookServer)
-// 	defer server.Close()
+func TestInvalidRequests(t *testing.T) {
+	correctBody, err := ioutil.ReadFile("testdata/sample_create.json")
+	if err != nil {
+		t.Errorf("Error reading sample create file: %s", err)
+	}
+	hookServer := NewServer(8888, "secret", "/path")
+	server := httptest.NewServer(hookServer)
+	defer server.Close()
 
-// }
+	// check wrong method
+	resp, err := SendRequest("GET", server.URL+"/path", "secret", "create", correctBody)
+	if err != nil {
+		t.Errorf("SendRequest: %s", err)
+	}
+	defer resp.Body.Close()
+	if resp.StatusCode != 405 {
+		t.Errorf("Expected 405 Method Not Allowed, got: %s", resp.StatusCode)
+	}
 
-// func TestPingEvent(t *testing.T) {
-// 	raw, err := ioutil.ReadFile("testdata/sample_ping.json")
-// 	if err != nil {
-// 		t.Errorf("Error reading sample ping file: %s", err)
-// 	}
-// 	server := NewServer(8888, "secret", "path")
-// 	server.processPacket(PingEventType, raw)
-// 	packet := <-server.EventAndTypes
-// 	payload, ok := packet.Event.(*PingEvent)
-// 	if !ok {
-// 		t.Error("Error asserting payload as *PingEvent.")
-// 	}
-// 	if payload.Zen != "Approachable is better than simple." {
-// 		t.Error("Incorrect PingEvent.Zen value.")
-// 	}
-// 	if payload.Hook.Config.ContentType != "json" {
-// 		t.Error("Incorrect PingEvent.Hook.Config.ContentType value.")
-// 	}
-// 	_, err = json.Marshal(payload)
-// 	if err != nil {
-// 		t.Errorf("Error marshalling PingEvent: %s", err)
-// 	}
-// }
+	// check wrong path
+	resp, err = SendRequest("POST", server.URL+"/wrongpath", "secret", "create", correctBody)
+	if err != nil {
+		t.Errorf("SendRequest: %s", err)
+	}
+	defer resp.Body.Close()
+	if resp.StatusCode != 404 {
+		t.Errorf("Expected 404 Not Found, got: %s", resp.StatusCode)
+	}
 
-// func TestPushEvent(t *testing.T) {
-// 	raw, err := ioutil.ReadFile("testdata/sample_push.json")
-// 	if err != nil {
-// 		t.Errorf("Error reading sample push file: %s", err)
-// 	}
-// 	server := NewServer(8888, "secret", "path")
-// 	server.processPacket(PushEventType, raw)
-// 	packet := <-server.EventAndTypes
-// 	payload, ok := packet.Event.(*PushEvent)
-// 	if !ok {
-// 		t.Error("Error asserting payload as *PushEvent.")
-// 	}
-// 	if payload.Ref != "refs/heads/master" {
-// 		t.Error("Incorrect PushEvent.Ref value.")
-// 	}
-// 	if payload.Commits[0].Author.Name != "M. Cameron Palone" {
-// 		t.Error("Incorrect payload.Commits[0].Author.Name value.")
-// 	}
-// 	_, err = json.Marshal(payload)
-// 	if err != nil {
-// 		t.Errorf("Error marshalling PushEvent: %s", err)
-// 	}
-// }
+	// check wrong secret
+	resp, err = SendRequest("POST", server.URL+"/path", "wrongsecret", "create", correctBody)
+	if err != nil {
+		t.Errorf("SendRequest: %s", err)
+	}
+	defer resp.Body.Close()
+	if resp.StatusCode != 403 {
+		t.Errorf("Expected 403 Unauthorized, got: %s", resp.StatusCode)
+	}
 
-// func TestWatchEvent(t *testing.T) {
-// 	raw, err := ioutil.ReadFile("testdata/sample_watch.json")
-// 	if err != nil {
-// 		t.Errorf("Error reading sample watch file: %s", err)
-// 	}
-// 	server := NewServer(8888, "secret", "path")
-// 	server.processPacket(WatchEventType, raw)
-// 	packet := <-server.EventAndTypes
-// 	payload, ok := packet.Event.(*WatchEvent)
-// 	if !ok {
-// 		t.Error("Error asserting payload as *WatchEvent.")
-// 	}
-// 	if payload.Action != "started" {
-// 		t.Error("Incorrect payload.Action value.")
-// 	}
-// 	if payload.Sender.ID != 16893 {
-// 		t.Error("Incorrect payload.Sender.ID value.")
-// 	}
-// 	if payload.Organization.ID != 12191882 {
-// 		t.Error("Incorrect payload.Organization.ID value.")
-// 	}
-// 	_, err = json.Marshal(payload)
-// 	if err != nil {
-// 		t.Errorf("Error marshalling WatchEvent: %s", err)
-// 	}
-// }
+	// check missing event type
+	resp, err = SendRequest("POST", server.URL+"/path", "secret", "", correctBody)
+	if err != nil {
+		t.Errorf("SendRequest: %s", err)
+	}
+	defer resp.Body.Close()
+	if resp.StatusCode != 400 {
+		t.Errorf("Expected 400 Bad Request, got: %s", resp.StatusCode)
+	}
 
-// func TestCommitCommentEvent(t *testing.T) {
-// 	raw, err := ioutil.ReadFile("testdata/sample_commit_comment.json")
-// 	if err != nil {
-// 		t.Errorf("Error reading sample commit_comment file: %s", err)
-// 	}
-// 	server := NewServer(8888, "secret", "path")
-// 	server.processPacket(CommitCommentEventType, raw)
-// 	packet := <-server.EventAndTypes
-// 	payload, ok := packet.Event.(*CommitCommentEvent)
-// 	if !ok {
-// 		t.Error("Error asserting payload as *CommitCommentEvent.")
-// 	}
-// 	if payload.Comment.Body != "This is a really good change! :+1:" {
-// 		t.Error("Incorrect payload.Comment.Body value.")
-// 	}
-// 	if payload.Comment.User.Login != "baxterthehacker" {
-// 		t.Error("Incorrect payload.Comment.User.Login value.")
-// 	}
-// 	_, err = json.Marshal(payload)
-// 	if err != nil {
-// 		t.Errorf("Error marshalling CommitCommentEvent: %s", err)
-// 	}
-// }
+	// check invalid body
+	invalidBody := []byte("{{}")
 
-// func TestTeamAddEvent(t *testing.T) {
-// 	raw, err := ioutil.ReadFile("testdata/sample_team_add.json")
-// 	if err != nil {
-// 		t.Errorf("Error reading sample team_add file: %s", err)
-// 	}
-// 	server := NewServer(8888, "secret", "path")
-// 	server.processPacket(TeamAddEventType, raw)
-// 	packet := <-server.EventAndTypes
-// 	payload, ok := packet.Event.(*TeamAddEvent)
-// 	if !ok {
-// 		t.Error("Error asserting payload as *TeamAddEvent.")
-// 	}
-// 	if payload.Team.ID != 1474248 {
-// 		t.Error("Incorrect payload.Team.ID value.")
-// 	}
-// 	if payload.Team.Slug != "owners" {
-// 		t.Error("Incorrect payload.Team.Slug value.")
-// 	}
-// 	_, err = json.Marshal(payload)
-// 	if err != nil {
-// 		t.Errorf("Error marshalling TeamAddEvent: %s", err)
-// 	}
-// }
-
-// func TestCreateEvent(t *testing.T) {
-// 	raw, err := ioutil.ReadFile("testdata/sample_create.json")
-// 	if err != nil {
-// 		t.Errorf("Error reading sample create file: %s", err)
-// 	}
-// 	server := NewServer(8888, "secret", "path")
-// 	server.processPacket(CreateEventType, raw)
-// 	packet := <-server.EventAndTypes
-// 	payload, ok := packet.Event.(*CreateEvent)
-// 	if !ok {
-// 		t.Error("Error asserting payload as *CreateEvent.")
-// 	}
-// 	if payload.Description !=
-// 		"Stripped down version of euphoria.io's heim written in Go." {
-// 		t.Error("Incorrect payload.Description value.")
-// 	}
-// 	if !bytes.Equal(payload.Repository.CreatedAt, []byte("\"2015-05-01T18:43:26Z\"")) {
-// 		t.Errorf("Incorrect payload.Repository.CreatedAt value. Got %s, expected %s", payload.Repository.CreatedAt, []byte("2015-05-01T18:43:26Z"))
-// 	}
-// 	_, err = json.Marshal(payload)
-// 	if err != nil {
-// 		t.Errorf("Error marshalling CreatedEvent: %s", err)
-// 	}
-// }
-
-// func TestRepositoryEvent(t *testing.T) {
-// 	raw, err := ioutil.ReadFile("testdata/sample_repository.json")
-// 	if err != nil {
-// 		t.Errorf("Error reading sample repo file: %s", err)
-// 	}
-// 	server := NewServer(8888, "secret", "path")
-// 	server.processPacket(RepositoryEventType, raw)
-// 	packet := <-server.EventAndTypes
-// 	payload, ok := packet.Event.(*RepositoryEvent)
-// 	if !ok {
-// 		t.Error("Error asserting payload as *RepositoryEvent.")
-// 	}
-// 	if payload.Action != "created" {
-// 		t.Error("Incorrect payload.Action value.")
-// 	}
-// 	if payload.Organization.Login != "fireside-chat" {
-// 		t.Error("Incorrect payload.Organization.Login value.")
-// 	}
-// 	_, err = json.Marshal(payload)
-// 	if err != nil {
-// 		t.Errorf("Error marshalling RepositoryEvent: %s", err)
-// 	}
-// }
-
-// func TestDeleteEvent(t *testing.T) {
-// 	raw, err := ioutil.ReadFile("testdata/sample_delete.json")
-// 	if err != nil {
-// 		t.Errorf("Error reading sample delete file: %s", err)
-// 	}
-// 	server := NewServer(8888, "secret", "path")
-// 	server.processPacket(DeleteEventType, raw)
-// 	packet := <-server.EventAndTypes
-// 	payload, ok := packet.Event.(*DeleteEvent)
-// 	if !ok {
-// 		t.Error("Error asserting payload as *DeleteEvent.")
-// 	}
-// 	if payload.Ref != "simple-tag" {
-// 		t.Error("Incorrect payload.Ref value.")
-// 	}
-// 	_, err = json.Marshal(payload)
-// 	if err != nil {
-// 		t.Errorf("Error marshalling DeleteEvent: %s", err)
-// 	}
-// }
-
-// func TestDeploymentEvent(t *testing.T) {
-// 	raw, err := ioutil.ReadFile("testdata/sample_delete.json")
-// 	if err != nil {
-// 		t.Errorf("Error reading sample delete file: %s", err)
-// 	}
-// 	server := NewServer(8888, "secret", "path")
-// 	server.processPacket(DeploymentEventType, raw)
-// 	packet := <-server.EventAndTypes
-// 	payload, ok := packet.Event.(*DeploymentEvent)
-// 	if !ok {
-// 		t.Error("Error asserting payload as *DeploymentEvent.")
-// 	}
-// 	_, err = json.Marshal(payload)
-// 	if err != nil {
-// 		t.Errorf("Error marshalling DeploymentEvent: %s", err)
-// 	}
-// }
+	resp, err = SendRequest("POST", server.URL+"/path", "secret", "create", correctBody)
+	if err != nil {
+		t.Errorf("SendRequest: %s", err)
+	}
+	defer resp.Body.Close()
+	if resp.StatusCode != 400 {
+		t.Errorf("Expected 400 Bad Request, got: %s", resp.StatusCode)
+	}
+}
