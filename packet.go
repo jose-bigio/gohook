@@ -1,6 +1,8 @@
 package gohook
 
-import "encoding/json"
+import (
+	"time"
+)
 
 // SenderType represents the structure of the sender field in push/ping events.
 type SenderType struct {
@@ -109,9 +111,9 @@ type RepoType struct {
 	NotificationsURL string          `json:"notifications_url"`
 	LabelsURL        string          `json:"labels_url"`
 	ReleasesURL      string          `json:"releases_url"`
-	CreatedAt        json.RawMessage `json:"created_at"`
-	UpdatedAt        json.RawMessage `json:"updated_at"`
-	PushedAt         json.RawMessage `json:"pushed_at"`
+	CreatedAt        time.Time 		 `json:"created_at"`
+	UpdatedAt        time.Time 		 `json:"updated_at"`
+	PushedAt         time.Time       `json:"pushed_at"`
 	GitURL           string          `json:"git_url"`
 	SSHURL           string          `json:"ssh_url"`
 	CloneURL         string          `json:"clone_url"`
@@ -169,8 +171,8 @@ type HookType struct {
 	Events    []string   `json:"events"`
 	Active    bool       `json:"active"`
 	Config    ConfigType `json:"config"`
-	UpdatedAt string     `json:"updated_at"`
-	CreatedAt string     `json:"created_at"`
+	UpdatedAt time.Time  `json:"updated_at"`
+	CreatedAt time.Time  `json:"created_at"`
 }
 
 // PingEvent represents the basic, top-level structure of a ping event.
@@ -191,8 +193,8 @@ type CommentType struct {
 	Line      string     `json:"line"`
 	Path      string     `json:"path"`
 	CommitID  string     `json:"commit_id"`
-	CreatedAt string     `json:"created_at"`
-	UpdatedAt string     `json:"updated_at"`
+	CreatedAt time.Time  `json:"created_at"`
+	UpdatedAt time.Time  `json:"updated_at"`
 	Body      string     `json:"body"`
 }
 
@@ -208,8 +210,8 @@ type IssueCommentType struct {
 	HTMLURL   string     `json:"html_url"`
 	Body      string     `json:"body"`
 	User      SenderType `json:"user"`
-	CreatedAt string     `json:"created_at"`
-	UpdatedAt string     `json:"created_at"`
+	CreatedAt time.Time  `json:"created_at"`
+	UpdatedAt time.Time  `json:"created_at"`
 }
 
 type LabelType struct {
@@ -230,9 +232,9 @@ type MilestoneType struct {
 	Creator      SenderType `json:"creator"`
 	OpenIssues   int        `json:"open_issues"`
 	ClosedIssues int        `json:"closed_issues"`
-	CreatedAt    string     `json:"created_at"`
-	UpdatedAt    string     `json:"updated_at"`
-	ClosedAt     string     `json:"closed_at"`
+	CreatedAt    time.Time  `json:"created_at"`
+	UpdatedAt    time.Time  `json:"updated_at"`
+	ClosedAt     *time.Time `json:"closed_at"`
 	DueOn        string     `json:"due_on"`
 }
 
@@ -257,9 +259,9 @@ type IssueType struct {
 	Milestone   MilestoneType        `json:"milestone"`
 	Comments    int                  `json:"comments"`
 	PullRequest ShortPullRequestType `json:"pull_request"`
-	ClosedAt    string               `json:"closed_at"`
-	CreatedAt   string               `json:"created_at"`
-	UpdatedAt   string               `json:"updated_at"`
+	ClosedAt    *time.Time           `json:"closed_at"`
+	CreatedAt   time.Time            `json:"created_at"`
+	UpdatedAt   time.Time            `json:"updated_at"`
 }
 
 type IssueCommentEvent struct {
@@ -314,8 +316,8 @@ type DeploymentType struct {
 	Environment   string            `json:"environment"`
 	Description   string            `json:"description"`
 	Creator       SenderType        `json:"creator"`
-	CreatedAt     string            `json:"created_at"`
-	UpdatedAt     string            `json:"updated_at"`
+	CreatedAt     time.Time         `json:"created_at"`
+	UpdatedAt     time.Time         `json:"updated_at"`
 	StatusesURL   string            `json:"statuses_url"`
 	RepositoryURL string            `json:"repository_url"`
 }
@@ -341,8 +343,8 @@ type DeploymentStatusType struct {
 	Creator       SenderType `json:"creator"`
 	Description   string     `json:"description"`
 	TargetURL     string     `json:"target_url"`
-	CreatedAt     string     `json:"created_at"`
-	UpdatedAt     string     `json:"updated_at"`
+	CreatedAt     time.Time  `json:"created_at"`
+	UpdatedAt     time.Time  `json:"updated_at"`
 	DeploymentURL string     `json:"deployment_url"`
 	RepositoryURL string     `json:"repository_url"`
 }
@@ -416,8 +418,8 @@ type BuildType struct {
 	Pusher    SenderType `json:"pusher"`
 	Commit    string     `json:"commit"`
 	Duration  int        `json:"duration"`
-	CreatedAt string     `json:"created_at"`
-	UpdatedAt string     `json:"updated_at"`
+	CreatedAt time.Time  `json:"created_at"`
+	UpdatedAt time.Time  `json:"updated_at"`
 }
 
 type PageBuildEvent struct {
@@ -460,10 +462,10 @@ type PullRequestType struct {
 	State             string          `json:"state"`
 	Title             string          `json:"title"`
 	Body              string          `json:"body"`
-	CreatedAt         string          `json:"created_at"`
-	UpdatedAt         string          `json:"updated_at"`
-	ClosedAt          string          `json:"closed_at"`
-	MergedAt          string          `json:"merged_at"`
+	CreatedAt         time.Time       `json:"created_at"`
+	UpdatedAt         time.Time       `json:"updated_at"`
+	ClosedAt          *time.Time      `json:"closed_at"`
+	MergedAt          *time.Time      `json:"merged_at"`
 	Head              BaseHeadType    `json:"head"`
 	Repo              RepoType        `json:"repo"`
 	Base              BaseHeadType    `json:"Base"`
@@ -499,8 +501,8 @@ type PullRequestReviewCommentType struct {
 	OriginalCommitID string          `json:"original_commit_id"`
 	User             SenderType      `json:"user"`
 	Body             string          `json:"body"`
-	CreatedAt        string          `json:"created_at"`
-	UpdatedAt        string          `json:"updated_at"`
+	CreatedAt        time.Time       `json:"created_at"`
+	UpdatedAt        time.Time       `json:"updated_at"`
 	HTMLURL          string          `json:"html_url"`
 	PullRequestURL   string          `json:"pull_request_url"`
 	Links            map[string]Link `json:"_links"`
@@ -524,8 +526,8 @@ type AssetType struct {
 	ContentType        string     `json:"content_type"`
 	Size               int        `json:"size"`
 	DownloadCount      int        `json:"download_count"`
-	CreatedAt          string     `json:"created_at"`
-	UpdatedAt          string     `json:"updated_at"`
+	CreatedAt          time.Time  `json:"created_at"`
+	UpdatedAt          time.Time  `json:"updated_at"`
 	Uploader           SenderType `json:"uploader"`
 }
 
@@ -543,8 +545,8 @@ type ReleaseType struct {
 	Body            string      `json:"body"`
 	Draft           bool        `json:"draft"`
 	Prerelease      bool        `json:"prerelease"`
-	CreatedAt       string      `json:"created_at"`
-	PublishedAt     string      `json:"published_at"`
+	CreatedAt       time.Time   `json:"created_at"`
+	PublishedAt     time.Time   `json:"published_at"`
 	Author          SenderType  `json:"author"`
 	Assets          []AssetType `json:"assets"`
 }
@@ -576,8 +578,8 @@ type StatusEvent struct {
 	State       string       `json:"state"`
 	Commit      CommitType   `json:"commit"`
 	Branches    []BranchType `json:"branches"`
-	CreatedAt   string       `json:"created_at"`
-	UpdatedAt   string       `json:"updated_at"`
+	CreatedAt   time.Time    `json:"created_at"`
+	UpdatedAt   time.Time    `json:"updated_at"`
 	Repository  RepoType     `json:"repository"`
 	Sender      SenderType   `json:"sender"`
 }

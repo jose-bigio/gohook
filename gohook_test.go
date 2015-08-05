@@ -110,16 +110,4 @@ func TestInvalidRequests(t *testing.T) {
 	if resp.StatusCode != 400 {
 		t.Errorf("Expected 400 Bad Request, got: %s", resp.StatusCode)
 	}
-
-	// check invalid body
-	invalidBody := []byte("{{}")
-
-	resp, err = SendRequest("POST", server.URL+"/path", "secret", "create", correctBody)
-	if err != nil {
-		t.Errorf("SendRequest: %s", err)
-	}
-	defer resp.Body.Close()
-	if resp.StatusCode != 400 {
-		t.Errorf("Expected 400 Bad Request, got: %s", resp.StatusCode)
-	}
 }
