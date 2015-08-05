@@ -1,0 +1,52 @@
+{
+  "zen": "Approachable is better than simple.",
+  "hook_id": 4719659,
+  "hook": {
+    "url": "https://api.github.com/orgs/fireside-chat/hooks/4719659",
+    "ping_url": "https://api.github.com/orgs/fireside-chat/hooks/4719659/pings",
+    "id": 4719659,
+    "name": "web",
+    "active": true,
+    "events": [
+      "push"
+    ],
+    "config": {
+      "url": "http://50.134.233.34:8888",
+      "content_type": "json",
+      "insecure_ssl": "0",
+      "secret": "********"
+    },
+    "updated_at": "2015-05-01T03:15:51Z",
+    "created_at": "2015-05-01T03:15:51Z"
+  },
+  "organization": {
+    "login": "fireside-chat",
+    "id": 12191882,
+    "url": "https://api.github.com/orgs/fireside-chat",
+    "repos_url": "https://api.github.com/orgs/fireside-chat/repos",
+    "events_url": "https://api.github.com/orgs/fireside-chat/events",
+    "members_url": "https://api.github.com/orgs/fireside-chat/members{/member}",
+    "public_members_url": "https://api.github.com/orgs/fireside-chat/public_members{/member}",
+    "avatar_url": "https://avatars.githubusercontent.com/u/12191882?v=3",
+    "description": null
+  },
+  "sender": {
+    "login": "cpalone",
+    "id": 9749483,
+    "avatar_url": "https://avatars.githubusercontent.com/u/9749483?v=3",
+    "gravatar_id": "",
+    "url": "https://api.github.com/users/cpalone",
+    "html_url": "https://github.com/cpalone",
+    "followers_url": "https://api.github.com/users/cpalone/followers",
+    "following_url": "https://api.github.com/users/cpalone/following{/other_user}",
+    "gists_url": "https://api.github.com/users/cpalone/gists{/gist_id}",
+    "starred_url": "https://api.github.com/users/cpalone/starred{/owner}{/repo}",
+    "subscriptions_url": "https://api.github.com/users/cpalone/subscriptions",
+    "organizations_url": "https://api.github.com/users/cpalone/orgs",
+    "repos_url": "https://api.github.com/users/cpalone/repos",
+    "events_url": "https://api.github.com/users/cpalone/events{/privacy}",
+    "received_events_url": "https://api.github.com/users/cpalone/received_events",
+    "type": "User",
+    "site_admin": false
+  }
+}
