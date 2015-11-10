@@ -1,7 +1,7 @@
 # gohook
 Introduction
 ---
-gohook is a small library for working with Github webhooks in Go. Currently, ping events and push events are processed, but all others result in a 500 status code and an explanation that the type is not yet implemented.
+gohook is a small library for working with Github webhooks in Go. Currently all types of events are served, except for those which Github no longer sends as webhook events. 
 
 gohook is loosely based on phayes' [hookserve.](https://github.com/phayes/hookserve)
 
