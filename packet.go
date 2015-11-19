@@ -53,7 +53,7 @@ type OrgType struct {
 
 // CommitType represents the structure of a commit as used in push events.
 type CommitType struct {
-	ID        string   `json:"id"`
+	ID        int      `json:"id"`
 	Distinct  bool     `json:"distinct"`
 	Message   string   `json:"message"`
 	Timestamp string   `json:"timestamp"`
