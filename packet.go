@@ -273,9 +273,10 @@ type CommentType struct {
 }
 
 type CommitCommentEvent struct {
-	Comment    CommentType `json:"comment"`
-	Repository RepoType    `json:"repository"`
-	Sender     SenderType  `json:"sender"`
+	Comment      CommentType `json:"comment"`
+	Repository   RepoType    `json:"repository"`
+	Sender       SenderType  `json:"sender"`
+	Organization OrgType     `json:"organization"`
 }
 
 type IssueCommentType struct {
