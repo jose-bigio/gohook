@@ -495,8 +495,8 @@ type ProjectCardType struct {
 type ProjectCardEvent struct {
 	Action      string          `json:"action"`
 	ProjectCard ProjectCardType `json:"project_car"`
-	CreatedAt   time.time       `json:"created_at"`
-	UpdatedAt   time.time       `json:"updated_at"`
+	CreatedAt   time.Time       `json:"created_at"`
+	UpdatedAt   time.Time       `json:"updated_at"`
 	Content_URL string          `json:"content_url"`
 	OpenIssues  int             `json:"open_issues"`
 }
@@ -721,8 +721,8 @@ const (
 	PingEventType                     = EventType("ping")
 	PushEventType                     = EventType("push")
 	ProjectEventType                  = EventType("project")
-	ProjectColumnEvent                = EventType("project_column")
-	ProjectCardEvent                  = EventType("project_card")
+	ProjectColumnEventType            = EventType("project_column")
+	ProjectCardEvenType               = EventType("project_card")
 	CommitCommentEventType            = EventType("commit_comment")
 	IssueCommentEventType             = EventType("issue_comment")
 	IssuesEventType                   = EventType("issues")
