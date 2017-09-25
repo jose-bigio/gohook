@@ -340,12 +340,10 @@ type IssueType struct {
 }
 
 type IssueCommentEvent struct {
-	Action     string           `json:"action"`
-	Issue      IssueType        `json:"issue"`
-	Comment    IssueCommentType `json:"comment"`
-	Repository RepoType         `json:"repository"`
-	Sender     SenderType       `json:"sender"`
-	Comments   int              `json:"comments"`
+	Action     string     `json:"action"`
+	Issue      IssueType  `json:"issue"`
+	Repository RepoType   `json:"repository"`
+	Sender     SenderType `json:"sender"`
 }
 
 type IssuesEvent struct {
@@ -721,8 +719,8 @@ const (
 	PingEventType                     = EventType("ping")
 	PushEventType                     = EventType("push")
 	ProjectEventType                  = EventType("project")
-	ProjectColumnEventType            = EventType("project_column")
-	ProjectCardEvenType               = EventType("project_card")
+	ProjectColumnEvent                = EventType("project_column")
+	ProjectCardEventType              = EventType("project_card")
 	CommitCommentEventType            = EventType("commit_comment")
 	IssueCommentEventType             = EventType("issue_comment")
 	IssuesEventType                   = EventType("issues")
