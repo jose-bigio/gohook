@@ -345,6 +345,7 @@ type IssueCommentEvent struct {
 	Comment    IssueCommentType `json:"comment"`
 	Repository RepoType         `json:"repository"`
 	Sender     SenderType       `json:"sender"`
+	Comments   int              `json:"comments"`
 }
 
 type IssuesEvent struct {
@@ -471,6 +472,44 @@ type TeamType struct {
 	URL             string `json:"url"`
 	MembersURL      string `json:"members_url"`
 	RepositoriesURL string `json:"repositories_url"`
+}
+
+type ProjectType struct {
+	Owner_Url string `json:"owner_url"`
+	HTMLURL   string `json:"html_url"`
+	ID        int    `json:"id"`
+	Name      string `json:"name"`
+	Body      string `json:"body"`
+	Number    int    `json:"number"`
+	State     string `json:"state"`
+}
+
+type ProjectCardType struct {
+	URL       string `json:"url"`
+	ColumnURL string `json:"column_url"`
+	ColumnID  int    `json:"column_id"`
+	ID        int    `json:"id"`
+	Note      string `json:note"`
+}
+
+type ProjectCardEvent struct {
+	Action      string          `json:"action"`
+	ProjectCard ProjectCardType `json:"project_car"`
+	CreatedAt   time.time       `json:"created_at"`
+	UpdatedAt   time.time       `json:"updated_at"`
+	Content_URL string          `json:"content_url"`
+	OpenIssues  int             `json:"open_issues"`
+}
+
+type ProjectEvent struct {
+	Action       string      `json:"action"`
+	Project      ProjectType `json:"project"`
+	CreatedAt    time.Time   `json:"created_at"`
+	UpdatedAt    time.Time   `json:"updated_at"`
+	HTMLURL      string      `json:"html_url"`
+	Repository   RepoType    `json:"repository"`
+	Organization OrgType     `json:"organization"`
+	Sender       SenderType  `json:"sender"`
 }
 
 type MembershipEvent struct {
@@ -681,6 +720,9 @@ type EventType string
 const (
 	PingEventType                     = EventType("ping")
 	PushEventType                     = EventType("push")
+	ProjectEventType                  = EventType("project")
+	ProjectColumnEvent                = EventType("project_column")
+	ProjectCardEvent                  = EventType("project_card")
 	CommitCommentEventType            = EventType("commit_comment")
 	IssueCommentEventType             = EventType("issue_comment")
 	IssuesEventType                   = EventType("issues")
