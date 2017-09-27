@@ -340,10 +340,11 @@ type IssueType struct {
 }
 
 type IssueCommentEvent struct {
-	Action     string     `json:"action"`
-	Issue      IssueType  `json:"issue"`
-	Repository RepoType   `json:"repository"`
-	Sender     SenderType `json:"sender"`
+	Action     string           `json:"action"`
+	Issue      IssueType        `json:"issue"`
+	Repository RepoType         `json:"repository"`
+	Sender     SenderType       `json:"sender"`
+	Comment    IssueCommentType `json:"comment"`
 }
 
 type IssuesEvent struct {
