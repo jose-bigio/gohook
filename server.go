@@ -77,6 +77,10 @@ func (s *Server) processPacket(eventType EventType, respBody []byte) {
 		payload = &PageBuildEvent{}
 	case PingEventType:
 		payload = &PingEvent{}
+	case ProjectCardEventType:
+		payload = &ProjectCardEvent{}
+	case ProjectEventType:
+		payload = &ProjectEvent{}
 	case PublicEventType:
 		payload = &PublicEvent{}
 	case PullRequestEventType:
