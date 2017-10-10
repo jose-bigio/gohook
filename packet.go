@@ -493,7 +493,7 @@ type ProjectCardType struct {
 
 type ProjectCardEvent struct {
 	Action      string          `json:"action"`
-	ProjectCard ProjectCardType `json:"project_car"`
+	ProjectCard ProjectCardType `json:"project_card"`
 	CreatedAt   time.Time       `json:"created_at"`
 	UpdatedAt   time.Time       `json:"updated_at"`
 	Content_URL string          `json:"content_url"`
