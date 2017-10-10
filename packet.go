@@ -474,37 +474,37 @@ type TeamType struct {
 }
 
 type ProjectType struct {
-	Owner_Url string `json:"owner_url"`
-	HTMLURL   string `json:"html_url"`
-	ID        int    `json:"id"`
-	Name      string `json:"name"`
-	Body      string `json:"body"`
-	Number    int    `json:"number"`
-	State     string `json:"state"`
+	Owner_Url string    `json:"owner_url"`
+	HTMLURL   string    `json:"html_url"`
+	ID        int       `json:"id"`
+	CreatedAt time.Time `json:"created_at"`
+	UpdatedAt time.Time `json:"updated_at"`
+	Name      string    `json:"name"`
+	Body      string    `json:"body"`
+	Number    int       `json:"number"`
+	State     string    `json:"state"`
 }
 
 type ProjectCardType struct {
-	URL       string `json:"url"`
-	ColumnURL string `json:"column_url"`
-	ColumnID  int    `json:"column_id"`
-	ID        int    `json:"id"`
-	Note      string `json:note"`
+	URL        string    `json:"url"`
+	ContentURL string    `json:"content_url"`
+	ColumnURL  string    `json:"column_url"`
+	ColumnID   int       `json:"column_id"`
+	CreatedAt  time.Time `json:"created_at"`
+	UpdatedAt  time.Time `json:"updated_at"`
+	ID         int       `json:"id"`
+	Note       string    `json:note"`
 }
 
 type ProjectCardEvent struct {
 	Action      string          `json:"action"`
 	ProjectCard ProjectCardType `json:"project_card"`
-	CreatedAt   time.Time       `json:"created_at"`
-	UpdatedAt   time.Time       `json:"updated_at"`
-	Content_URL string          `json:"content_url"`
 	OpenIssues  int             `json:"open_issues"`
 }
 
 type ProjectEvent struct {
 	Action       string      `json:"action"`
 	Project      ProjectType `json:"project"`
-	CreatedAt    time.Time   `json:"created_at"`
-	UpdatedAt    time.Time   `json:"updated_at"`
 	HTMLURL      string      `json:"html_url"`
 	Repository   RepoType    `json:"repository"`
 	Organization OrgType     `json:"organization"`
