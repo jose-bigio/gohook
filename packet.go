@@ -592,6 +592,8 @@ type PullRequestType struct {
 	Commits           int             `json:"commits"`
 	Additions         int             `json:"additions"`
 	Deletions         int             `json:"deletions"`
+	Assignee          *UserType       `json:"assignee"`
+	Milestone         *MilestoneType  `json:"milestone"`
 	ChangedFiles      int             `json:"changed_files"`
 }
 
